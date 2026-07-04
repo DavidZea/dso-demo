@@ -13,16 +13,19 @@ spec:
       volumeMounts:
         - name: m2
           mountPath: /root/.m2/
-    - name: docker-tools
-      image: rmkanda/docker-tools:latest
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:v1.6.0-debug
+      imagePullPolicy: Always
+      env:
+        - name: container
+          value: docker
       command:
-        - cat
-      tty: true
+        - sleep
+      args:
+        - 99d
       volumeMounts:
-        - mountPath: /var/run
-          name: docker-sock
-        - mountPath: /tmp/trivycache/
-          name: trivycache
+        - name: jenkins-docker-cfg
+          mountPath: /kaniko/.docker
     - name: trufflehog
       image: rmkanda/trufflehog
       command:
@@ -37,9 +40,11 @@ spec:
     - name: m2
       hostPath:
         path: /tmp/.m2/
-    - name: docker-sock
-      hostPath:
-        path: /var/run
-    - name: trivycache
-      hostPath:
-        path: /tmp/trivycache/
+    - name: jenkins-docker-cfg
+      projected:
+        sources:
+          - secret:
+              name: regcred
+              items:
+                - key: .dockerconfigjson
+                  path: config.json
