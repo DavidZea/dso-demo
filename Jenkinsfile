@@ -31,14 +31,15 @@ pipeline {
           steps {
             container('maven') {
               catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                // Forzamos la versión 10.0.4 para evitar el error 403 de la API antigua del NVD
-                sh 'mvn org.owasp:dependency-check-maven:10.0.4:check'
+                // Forzamos la versión 10.0.4 y desactivamos el OSS Index que arrojaba error 401
+                sh 'mvn org.owasp:dependency-check-maven:10.0.4:check -DossindexAnalyzerEnabled=false -DassemblyAnalyzerEnabled=false'
               }
             }
           }
           post {
             always {
-              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
+              // Eliminamos onlyIfSuccessful para que el reporte se archive siempre, falle o pase el análisis
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true
             }
           }
         }
