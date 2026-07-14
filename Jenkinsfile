@@ -43,6 +43,21 @@ pipeline {
             }
           }
         }
+        // MODIFICACIÓN: Movido aquí (dentro del bloque parallel de Static Analysis)
+        stage('OSS License Checker') {
+          steps {
+            container('licensefinder') {
+              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') { 
+                sh 'ls -al'
+                sh '''#!/bin/bash --login
+                rvm use default
+                gem install license_finder --no-document
+                license_finder
+                '''
+              }
+            }
+          }
+        }
       }
     }
     stage('Package') {
