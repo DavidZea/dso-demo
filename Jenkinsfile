@@ -48,15 +48,15 @@ pipeline {
         stage('Generate SBOM') {
           steps {
             container('maven') {
-              sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'[cite: 1]
+              sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
             }
           }
           post {
             success {
               // Publica el reporte de componentes en tu Dependency-Track local
-              dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '10.0.1', artifact: 'target/bom.xml', autoCreateProjects: true, synchronous: true[cite: 1]
+              dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '10.0.1', artifact: 'target/bom.xml', autoCreateProjects: true, synchronous: true
               // Archiva el reporte localmente en el pipeline de Jenkins
-              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true[cite: 1]
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
             }
           }
         }
