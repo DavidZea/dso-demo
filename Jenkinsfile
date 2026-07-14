@@ -53,8 +53,8 @@ pipeline {
           }
           post {
             success {
-              // Publica el reporte de componentes en tu Dependency-Track local
-              dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '10.0.1', artifact: 'target/bom.xml', autoCreateProjects: true, synchronous: true
+              // Eliminado "autoCreateProjects: true" para resolver el error de sintaxis del plugin
+              dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '10.0.1', artifact: 'target/bom.xml', synchronous: true
               // Archiva el reporte localmente en el pipeline de Jenkins
               archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
             }
