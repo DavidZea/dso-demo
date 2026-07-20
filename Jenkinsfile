@@ -30,10 +30,8 @@ pipeline {
         stage('SCA') {
           steps {
             container('maven') {
-              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 // Forzamos la versión 10.0.4 y desactivamos el OSS Index que arrojaba error 401
                 sh 'mvn org.owasp:dependency-check-maven:10.0.4:check -DossindexAnalyzerEnabled=false -DassemblyAnalyzerEnabled=false'
-              }
             }
           }
           post {
