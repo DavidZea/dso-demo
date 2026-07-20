@@ -37,36 +37,37 @@
     :when: 2020-05-31 15:27:29.688403000 Z
 - - :approve
   - logback-core
-  - :who: 
-    :why: 
+  - :who: David
+    :why: EPL-1.0/LGPL dual license, aprobada para el lab
     :versions:
-    - 1.2.3
-    :when: 2020-05-31 15:28:30.302764000 Z
+    - 1.4.14
+    - 1.5.34
+    :when: 2026-07-20
 - - :approve
   - logback-classic
-  - :who: 
-    :why: 
+  - :who: David
+    :why: EPL-1.0/LGPL dual license, aprobada para el lab
     :versions:
-    - 1.2.3
-    :when: 2020-05-31 15:29:03.621478000 Z
+    - 1.5.34
+    :when: 2026-07-20
 - - :approve
   - jakarta.xml.bind-api
-  - :who: 
-    :why: 
+  - :who: David
+    :why: EPL-1.0/LGPL dual license, aprobada para el lab
     :versions:
-    - 2.3.3
-    :when: 2020-05-31 15:29:19.300525000 Z
+    - 4.0.5
+    :when: 2026-07-20
 - - :approve
   - jakarta.el
   - :who: 
     :why: 
     :versions:
-    - 3.0.3
+    - 4.0.5
     :when: 2020-05-31 15:29:37.769070000 Z
 - - :approve
   - jakarta.annotation-api
-  - :who: 
-    :why: 
+  - :who: david
+    :why: EPL-1.0/LGPL dual license, aprobada para el lab
     :versions:
-    - 1.3.5
-    :when: 2020-05-31 15:29:53.045616000 Z
+    - 3.0.0
+    :when: 2026-07-20
