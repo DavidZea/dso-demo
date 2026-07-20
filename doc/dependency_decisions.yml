@@ -42,21 +42,21 @@
     :versions:
     - 1.4.14
     - 1.5.34
-    :when: 2026-07-20
+    :when: 2026-07-20 00:00:00.000000000 Z
 - - :approve
   - logback-classic
   - :who: David
     :why: EPL-1.0/LGPL dual license, aprobada para el lab
     :versions:
     - 1.5.34
-    :when: 2026-07-20
+    :when: 2026-07-20 00:00:00.000000000 Z
 - - :approve
   - jakarta.xml.bind-api
   - :who: David
     :why: EPL-1.0/LGPL dual license, aprobada para el lab
     :versions:
     - 4.0.5
-    :when: 2026-07-20
+    :when: 2026-07-20 00:00:00.000000000 Z
 - - :approve
   - jakarta.el
   - :who: 
@@ -70,4 +70,4 @@
     :why: EPL-1.0/LGPL dual license, aprobada para el lab
     :versions:
     - 3.0.0
-    :when: 2026-07-20
+    :when: 2026-07-20 00:00:00.000000000 Z
