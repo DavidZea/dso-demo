@@ -42,6 +42,16 @@ spec:
       command:
         - cat
       tty: true
+    - name: trivy
+        image: aquasec/trivy:latest
+        command:
+          - cat
+        tty: true
+    - name: dockle
+      image: goodwithtech/dockle:latest
+      command:
+        - cat
+      tty: true
   volumes:
     - name: m2
       hostPath:

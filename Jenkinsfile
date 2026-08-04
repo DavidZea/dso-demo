@@ -105,7 +105,24 @@ pipeline {
         }
       }
     }
-
+      stage('Image Analysis') {
+      parallel {
+        stage('Image Linting') {
+          steps {
+            container('dockle') {
+              sh 'dockle --exit-code 1 --exit-level fatal docker.io/piedraver/dso-demo'
+            }
+          }
+        }
+        stage('Image Scan') {
+          steps {
+            container('trivy') {
+              sh 'trivy image --timeout 15m --severity HIGH,CRITICAL --exit-code 1 piedraver/dso-demo'
+            }
+          }
+        }
+      }
+    }
     stage('Deploy to Dev') {
       steps {
         // TODO
