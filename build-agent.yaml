@@ -43,10 +43,10 @@ spec:
         - cat
       tty: true
     - name: trivy
-        image: aquasec/trivy:latest
-        command:
+      image: aquasec/trivy:latest
+      command:
           - cat
-        tty: true
+      tty: true
     - name: dockle
       image: goodwithtech/dockle:latest
       command:
