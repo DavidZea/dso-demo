@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.3</version>
+		<version>4.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.demo</groupId>
@@ -17,6 +17,9 @@
 <!-- 	<properties>
 		<java.version>1.8</java.version>
 	</properties> -->
+	<properties>
+    <tomcat.version>11.0.24</tomcat.version>
+  	</properties>
 
 	<dependencies>
 		<dependency>
@@ -46,7 +49,10 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>6.1.1</version>
+				<version>10.0.4</version>
+				<configuration>
+		          <failBuildOnCVSS>8</failBuildOnCVSS>
+		        </configuration>
 				<executions>
 					<execution>
 						<goals>

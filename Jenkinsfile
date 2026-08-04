@@ -30,17 +30,60 @@ pipeline {
         stage('SCA') {
           steps {
             container('maven') {
-              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                // Forzamos la versión 10.0.4 para evitar el error 403 de la API antigua del NVD
-                sh 'mvn org.owasp:dependency-check-maven:10.0.4:check'
-              }
+                // Forzamos la versión 10.0.4 y desactivamos el OSS Index que arrojaba error 401
+                sh 'mvn org.owasp:dependency-check-maven:10.0.4:check -DossindexAnalyzerEnabled=false -DassemblyAnalyzerEnabled=false'
             }
           }
           post {
             always {
-              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
+              // Eliminamos onlyIfSuccessful para que el reporte se archive siempre, falle o pase el análisis
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true
             }
           }
+        }
+
+        // NUEVA ETAPA: Generación y envío del Software Bill of Materials (SBOM)
+        stage('Generate SBOM') {
+          steps {
+            container('maven') {
+              sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
+            }
+          }
+          post {
+            success {
+              // Eliminado "autoCreateProjects: true" para resolver el error de sintaxis del plugin
+              dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '10.0.1', artifact: 'target/bom.xml', synchronous: true
+              // Archiva el reporte localmente en el pipeline de Jenkins
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
+            }
+          }
+        }
+
+        stage('OSS License Checker') {
+          steps {
+            container('licensefinder') {
+              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') { 
+                sh 'ls -al'
+                sh '''#!/bin/bash --login
+                rvm use default
+                gem install license_finder --no-document
+                license_finder
+                '''
+              }
+            }
+          }
+        }
+      }
+    }
+    stage('SAST') {
+      steps {
+        container('slscan') {
+          sh 'scan --type java,depscan --build'
+        }
+      }
+      post {
+        success {
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
         }
       }
     }

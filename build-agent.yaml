@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: maven
-      image: maven:alpine
+      image: maven:3.9.6-eclipse-temurin-17-alpine
       command:
         - cat
       tty: true
@@ -33,6 +33,12 @@ spec:
       tty: true
     - name: licensefinder
       image: licensefinder/license_finder
+      command:
+        - cat
+      tty: true
+    - name: slscan
+      image: shiftleft/sast-scan:v2.1.2
+      imagePullPolicy: Always
       command:
         - cat
       tty: true
