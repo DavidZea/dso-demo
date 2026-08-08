@@ -124,10 +124,14 @@ pipeline {
       }
     }
     stage('Deploy to Dev') {
-      steps {
-        // TODO
-        sh "echo done"
+       environment {
+        AUTH_TOKEN = credentials('argocd-jenkins-deployer-token')
       }
+      steps {
+        container('argocd') {
+          sh 'argocd app sync dso-demo --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
+          sh 'argocd app wait dso-demo --health --timeout 300 --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN'
+        }
     }
   }
 }

@@ -52,6 +52,16 @@ spec:
       command:
         - cat
       tty: true
+    - name: argocd
+      image: quay.io/argoproj/argocd:latest
+      command:
+        - cat
+      tty: true
+    - name: zap
+      image: ghcr.io/zaproxy/zaproxy:stable
+      command:
+        - cat
+      tty: true
   volumes:
     - name: m2
       hostPath:
