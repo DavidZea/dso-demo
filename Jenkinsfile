@@ -6,6 +6,10 @@ pipeline {
       idleMinutes 1
     }
   }
+  environment {
+    ARGO_SERVER = '34.148.217.20:32100'
+    DEV_URL = 'http://34.148.217.20:30080/'
+  }
   stages {
     stage('Build') {
       parallel {
@@ -52,7 +56,7 @@ pipeline {
           post {
             success {
               // Eliminado "autoCreateProjects: true" para resolver el error de sintaxis del plugin
-              dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '10.0.1', artifact: 'target/bom.xml', synchronous: true
+              //dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '10.0.1', artifact: 'target/bom.xml', synchronous: true
               // Archiva el reporte localmente en el pipeline de Jenkins
               archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
             }
@@ -125,8 +129,7 @@ pipeline {
     }
     stage('Deploy to Dev') {
        environment {
-        ARGO_SERVER = '34.148.217.20:32100'
-        DEV_URL = 'http://34.148.217.20:30080/'
+        AUTH_TOKEN = credentials('argocd-jenkins-deployer-token')
       }
       steps {
         container('argocd') {
