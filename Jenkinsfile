@@ -7,8 +7,8 @@ pipeline {
     }
   }
   environment {
-    ARGO_SERVER = '34.148.217.20:32100'
-    DEV_URL = 'http://34.148.217.20:30080/'
+    ARGO_SERVER = 'argocd-server.argocd.svc.cluster.local'
+    DEV_URL = 'http://dso-demo.dev.svc.cluster.local:8080/'
   }
   stages {
     stage('Build') {
