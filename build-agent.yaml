@@ -52,8 +52,8 @@ spec:
       command:
         - cat
       tty: true
-    - name: argocd
-      image: quay.io/argoproj/argocd:latest
+    - name: deployer
+      image: alpine/curl:latest
       command:
         - cat
       tty: true
