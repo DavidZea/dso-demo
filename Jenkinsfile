@@ -133,7 +133,12 @@ pipeline {
       }
       steps {
         container('deployer') {
-          sh 'curl -sk -f -X POST -H "Authorization: Bearer $AUTH_TOKEN" https://$ARGO_SERVER/api/v1/applications/dso-demo/sync'
+          sh '''
+            curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+            chmod +x /usr/local/bin/argocd
+            argocd app sync dso-demo --grpc-web --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN
+            argocd app wait dso-demo --health --timeout 300 --grpc-web --insecure --server $ARGO_SERVER --auth-token $AUTH_TOKEN
+          '''
         }
     }
   }
