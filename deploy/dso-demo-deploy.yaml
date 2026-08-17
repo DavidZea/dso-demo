@@ -15,10 +15,12 @@ spec:
       labels:
         app: dso-demo
     spec:
+      serviceAccountName: dso-demo
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
+        runAsUser: 11000
+        runAsGroup: 11000
         seccompProfile:
           type: RuntimeDefault
       volumes:
